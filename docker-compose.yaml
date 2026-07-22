@@ -35,6 +35,11 @@ services:
     depends_on:
       - redis
       - catalogue
+  mysql:
+    image: mysql:1.0
+    container_name: mysql
+    networks:
+      - roboshop
   frontend:
     image: frontend:1.0
     container_name: frontend
