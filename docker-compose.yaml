@@ -15,7 +15,7 @@ services:
     depends_on:
       - mongodb
   redis:
-    image: redis:latest
+    image: redis
     container_name: redis
     networks:
       - roboshop
@@ -50,6 +50,15 @@ services:
     depends_on:
     - mysql
     - cart
+  payment:
+    image: payment:1.0
+    container_name: payment
+    networks:
+      - roboshop
+    depends_on:
+      - cart
+      - user
+      - rabbitmq
   frontend:
     image: frontend:1.0
     container_name: frontend
