@@ -1,0 +1,7 @@
+FROM node:26-alpine
+EXPOSE 8080
+WORKDIR /opt/cart
+COPY package.json .
+COPY server.js .
+RUN npm install
+CMD ["node","server.js"]
