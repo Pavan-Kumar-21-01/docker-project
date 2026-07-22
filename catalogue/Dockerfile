@@ -3,7 +3,6 @@ EXPOSE 8080
 WORKDIR /opt/catalogue
 COPY package.json .
 COPY server.js .
-ENV MONGO="true" \
-    MONGO_URL="mongodb://mongodb:27017/catalogue"
 RUN npm install
+ENV MONGO=true
 CMD ["node","server.js"]
