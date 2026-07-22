@@ -27,6 +27,13 @@ services:
     depends_on:
       - redis
       - mongodb
+  cart:
+    image: cart:1.0
+    container_name: cart
+    networks:
+      - roboshop
+    depends_on:
+      - redis
   frontend:
     image: frontend:1.0
     container_name: frontend
