@@ -1,0 +1,80 @@
+networks:
+  roboshop:
+    driver: bridge
+services:
+  mongodb:
+    image: mongodb:1.0
+    container_name: mongodb
+    networks:
+      - roboshop
+  catalogue:
+    image: catalogue:1.0
+    container_name: catalogue
+    networks:
+      - roboshop
+    depends_on:
+      - mongodb
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - roboshop
+  user:
+    image: user:1.0
+    container_name: user
+    networks:
+      - roboshop
+    depends_on:
+      - redis
+      - mongodb
+  cart:
+    image: cart:1.0
+    container_name: cart
+    networks:
+      - roboshop
+    depends_on:
+      - redis
+      - catalogue
+  rabbitmq:
+    image: rabbitmq:3
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: roboshop
+      RABBITMQ_DEFAULT_PASS: roboshop123
+    networks:
+      - roboshop
+  mysql:
+    image: mysql:1.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "RoboShop@1"
+    networks:
+      - roboshop
+  shipping:
+    image: shipping:1.0
+    container_name: shipping
+    networks:
+      - roboshop
+    depends_on:
+    - mysql
+    - cart
+  payment:
+    image: payment:1.0
+    container_name: payment
+    networks:
+      - roboshop
+    depends_on:
+      - cart
+      - user
+      - rabbitmq
+  frontend:
+    image: frontend:1.0
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - catalogue
+      - user
+      - cart
+      - shipping
+      - payment
