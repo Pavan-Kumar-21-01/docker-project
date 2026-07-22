@@ -21,7 +21,7 @@ services:
       - roboshop
   user:
     image: user:1.0
-    conatiner_name: user
+    container_name: user
     networks:
       - roboshop
     depends_on:
